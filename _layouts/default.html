@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title | default: site.title }}</title>
+  <meta name="description" content="{{ page.description | default: site.description }}">
+  {% seo %}
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Bidirectional link — parent network -->
+  <link rel="me" href="https://evobiosys.org">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="{{ '/assets/favicon.svg' | relative_url }}">
+
+  <!-- TrustRing hash injected from _config.yml -->
+  <meta name="trust-ring-hash" content="{{ site.trust_ring_hash }}">
+
+  <!-- IndieWeb -->
+  <link rel="webmention" href="https://webmention.io/cosbiosys.org/webmention">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="cb-nav" id="nav">
+    <a href="/" class="cb-nav-logo">Cos<span>BioSys</span></a>
+    <div class="cb-nav-right">
+      <a href="#kinds" class="cb-nav-link">Kinds</a>
+      <a href="#mesh" class="cb-nav-link">The mesh</a>
+      <span class="cb-nav-ring" style="opacity:0.55; pointer-events:none; cursor:default;" title="Client-side encryption coming later">Trust Ring &middot; soon</span>
+      <a href="https://evobiosys.org" class="cb-nav-parent" target="_blank" rel="noopener">
+        Part of EvoBioSys &#x2197;
+      </a>
+    </div>
+  </nav>
+
+  <!-- TrustRing modal (hidden by default) -->
+  <div class="cb-ring-modal" id="cb-ring-modal" role="dialog" aria-modal="true" aria-labelledby="cb-ring-title" hidden>
+    <div class="cb-ring-panel">
+      <button type="button" class="cb-ring-close" aria-label="Close" data-ring-close>&times;</button>
+      <p class="cb-ring-eyebrow">Inner ring</p>
+      <h2 id="cb-ring-title">TrustToken</h2>
+      <p class="cb-ring-lead">
+        The outer ring is public. An inner ring reveals the people behind
+        each place &mdash; full names, direct links, specifics. Access is
+        granted in person, or via a token shared over a trusted channel.
+      </p>
+      <form class="cb-ring-form" data-ring-form>
+        <label for="cb-ring-input" class="cb-ring-label">TrustToken</label>
+        <input type="password" id="cb-ring-input" class="cb-ring-input" autocomplete="off"
+               placeholder="Enter your token&hellip;" aria-describedby="cb-ring-status">
+        <button type="submit" class="cb-ring-submit">Enter the inner ring</button>
+        <p class="cb-ring-status" id="cb-ring-status" data-ring-status></p>
+      </form>
+      <p class="cb-ring-note">
+        Later rings will graduate &mdash; friends, co-stewards, close kin.
+        One pattern, many thresholds.
+      </p>
+    </div>
+  </div>
+
+  <!-- Active ring banner -->
+  <div class="cb-ring-banner" data-ring-banner hidden>
+    <span class="cb-ring-banner-dot"></span>
+    <span>Inner ring active &mdash; full identities visible</span>
+    <button type="button" class="cb-ring-banner-leave" data-ring-leave>Leave the ring</button>
+  </div>
+
+  {{ content }}
+
+  <!-- Footer -->
+  <footer class="cb-footer">
+    <div class="cb-footer-inner">
+      <div class="cb-footer-brand">
+        <span class="cb-footer-logo">CosBioSys</span>
+        <span class="cb-footer-tagline">A network of places</span>
+      </div>
+      <div class="cb-footer-links">
+        <a href="https://evobiosys.org" target="_blank" rel="noopener">EvoBioSys</a>
+        <a href="https://evobiosys.org/holons/" target="_blank" rel="noopener">Holons</a>
+        <a href="https://questhub.eco" target="_blank" rel="noopener">QuestHub</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/legal/">Legal</a>
+        <a href="mailto:connect@evobiosys.org">Contact</a>
+      </div>
+      <p class="cb-footer-copy">
+        &copy; 2026 CosBioSys &middot; Sibling of EvoBioSys &middot;
+        <span style="color: #aaa; font-size: 0.75rem;">v0.1</span>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar scroll effect
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    /* =======================================================
+       TrustRing — client-side gate
+       Pattern: outer ring is public, inner ring reveals
+       full identities. Token is hashed (SHA-256) and compared
+       against the hash embedded in the page. The token itself
+       never enters the repo.
+       ======================================================= */
+    (function () {
+      const hashTag    = document.querySelector('meta[name="trust-ring-hash"]');
+      const trueHash   = hashTag ? hashTag.content.trim() : '';
+      const modal      = document.getElementById('cb-ring-modal');
+      const form       = document.querySelector('[data-ring-form]');
+      const input      = document.getElementById('cb-ring-input');
+      const status     = document.querySelector('[data-ring-status]');
+      const banner     = document.querySelector('[data-ring-banner]');
+      const leaveBtn   = document.querySelector('[data-ring-leave]');
+      const closeBtn   = document.querySelector('[data-ring-close]');
+      const toggleBtns = document.querySelectorAll('[data-ring-toggle]');
+      const STORAGE_KEY = 'cosbiosys_ring_unlocked';
+
+      async function sha256Hex (str) {
+        const buf = new TextEncoder().encode(str);
+        const digest = await crypto.subtle.digest('SHA-256', buf);
+        return Array.from(new Uint8Array(digest))
+          .map(b => b.toString(16).padStart(2, '0'))
+          .join('');
+      }
+
+      function enterRing () {
+        document.body.classList.add('ring-active');
+        if (banner) banner.hidden = false;
+      }
+
+      function leaveRing () {
+        document.body.classList.remove('ring-active');
+        if (banner) banner.hidden = true;
+        try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
+      }
+
+      function openModal () {
+        if (modal) { modal.hidden = false; input && input.focus(); }
+      }
+      function closeModal () {
+        if (modal) modal.hidden = true;
+        if (status) status.textContent = '';
+        if (input) input.value = '';
+      }
+
+      // Toggle button: if ring is active, go straight to the modal anyway
+      toggleBtns.forEach(btn => btn.addEventListener('click', openModal));
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (leaveBtn) leaveBtn.addEventListener('click', leaveRing);
+
+      // Escape closes modal
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && modal && !modal.hidden) closeModal();
+      });
+
+      // Form submit — hash and compare
+      if (form) {
+        form.addEventListener('submit', async e => {
+          e.preventDefault();
+          const token = input.value.trim();
+          if (!token) { status.textContent = 'Token required.'; return; }
+          try {
+            const h = await sha256Hex(token);
+            if (h === trueHash) {
+              status.textContent = 'Welcome.';
+              enterRing();
+              try { localStorage.setItem(STORAGE_KEY, h); } catch (_) {}
+              setTimeout(closeModal, 600);
+            } else {
+              status.textContent = 'Token not recognised.';
+            }
+          } catch (_) {
+            status.textContent = 'Crypto unavailable in this browser.';
+          }
+        });
+      }
+
+      // Restore state on load — if the stored hash still matches, re-enter
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored && stored === trueHash) enterRing();
+      } catch (_) {}
+
+      // Also accept ?trust=<token> in URL (one-shot, cleans URL after)
+      const params = new URLSearchParams(window.location.search);
+      const urlToken = params.get('trust');
+      if (urlToken) {
+        sha256Hex(urlToken).then(h => {
+          if (h === trueHash) {
+            enterRing();
+            try { localStorage.setItem(STORAGE_KEY, h); } catch (_) {}
+          }
+          params.delete('trust');
+          const clean = window.location.pathname + (params.toString() ? '?' + params : '') + window.location.hash;
+          window.history.replaceState({}, '', clean);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

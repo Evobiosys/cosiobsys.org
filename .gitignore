@@ -1,0 +1,19 @@
+# Local-only files (never commit) — contain inner-ring content
+*.local
+
+# Jekyll build
+_site/
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/
+
+# Bundler / Ruby
+.bundle/
+vendor/
+Gemfile.lock
+
+# Editor / OS
+.DS_Store
+*.swp
+*.swo
+Thumbs.db

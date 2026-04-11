@@ -1,0 +1,26 @@
+title: CosBioSys — A Network of Places
+description: >-
+  A personal network of physical places held with care — where trust is dense
+  enough to belong. Sibling of EvoBioSys, part of the one living mesh.
+url: "https://cosbiosys.org"
+baseurl: ""
+
+markdown: kramdown
+theme: null
+plugins:
+  - jekyll-seo-tag
+
+# Bidirectional link — parent network
+evobiosys_url: "https://evobiosys.org"
+
+# TrustRing gate — SHA-256 hash of the passphrase.
+# The passphrase itself never enters this repo. To rotate:
+#   python3 -c "import hashlib; print(hashlib.sha256(b'YOUR-PASSPHRASE').hexdigest())"
+# Then share the passphrase out-of-band via Signal or Matrix, never here.
+trust_ring_hash: "68a8c196f9860e22bc3fd069cb2bfbe812a7787f779f9df7a84be7c458980027"
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
