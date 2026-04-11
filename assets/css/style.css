@@ -670,6 +670,10 @@ em { color: var(--cb-turquoise); font-style: italic; }
   padding: 1.5rem;
   animation: cb-fade-in 0.25s ease-out;
 }
+/* The HTML `hidden` attribute must win over the class rule above.
+   Without this, `display: flex` overrides the UA `[hidden] { display: none }`
+   because author rules beat UA rules at equal specificity. */
+.cb-ring-modal[hidden] { display: none; }
 @keyframes cb-fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }
@@ -793,6 +797,7 @@ em { color: var(--cb-turquoise); font-style: italic; }
   box-shadow: 0 10px 30px rgba(14, 62, 66, 0.25);
   animation: cb-ring-rise 0.35s ease-out;
 }
+.cb-ring-banner[hidden] { display: none; }
 .cb-ring-banner-dot {
   width: 8px; height: 8px;
   border-radius: 50%;
