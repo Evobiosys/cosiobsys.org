@@ -484,10 +484,11 @@ description: >-
         btn.disabled = false;
         btn.textContent = origBtn;
         if (note) {
+          var u = 'connect', d = 'evobiosys.org', addr = u + '@' + d;
           note.innerHTML =
             '<span style="color:#c0392b;">Subscription failed. ' +
-            'Please email <a href="mailto:connect@evobiosys.org">' +
-            'connect@evobiosys.org</a> instead.</span>';
+            'Please email <a href="ma' + 'ilto:' + addr + '">' +
+            addr + '</a> instead.</span>';
           setTimeout(() => { note.innerHTML = origNote; }, 8000);
         }
       }

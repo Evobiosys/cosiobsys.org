@@ -85,7 +85,7 @@
         <a href="https://questhub.eco" target="_blank" rel="noopener">QuestHub</a>
         <a href="/privacy/">Privacy</a>
         <a href="/legal/">Legal</a>
-        <a href="mailto:connect@evobiosys.org">Contact</a>
+        <a href="#" class="email-reveal" data-u="connect" data-d="evobiosys.org" rel="nofollow">Reveal email</a>
       </div>
       <p class="cb-footer-copy">
         &copy; 2026 CosBioSys &middot; Sibling of EvoBioSys &middot;
@@ -203,6 +203,20 @@
         });
       }
     })();
+  </script>
+
+  <script>
+  (function(){
+    document.addEventListener('click', function(e){
+      var el = e.target.closest('.email-reveal');
+      if (!el) return;
+      e.preventDefault();
+      var addr = el.dataset.u + '@' + el.dataset.d;
+      el.textContent = addr;
+      el.href = 'mailto:' + addr;
+      el.classList.remove('email-reveal');
+    });
+  })();
   </script>
 </body>
 </html>
