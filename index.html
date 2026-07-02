@@ -438,17 +438,18 @@ description: >-
       <button type="submit" class="cb-btn cb-btn-primary">Subscribe</button>
     </form>
     <p class="cb-subscribe-note" id="cb-subscribe-note">
-      Double opt-in. Only your email is stored &mdash; encrypted, on an
-      EU/CH server. See <a href="/privacy/">Privacy</a>.
+      Double opt-in. Unsubscribe anytime. No tracking. Only your email is
+      stored &mdash; encrypted, on an EU/CH server. See
+      <a href="/privacy/">Privacy</a>.
     </p>
   </div>
 </section>
 
 <script>
-  // Subscribe — POSTs to the self-hosted subscriber.evobiosys.org backend.
+  // Subscribe — POSTs to the shared subscriber.questhub.eco backend.
   // Double opt-in handled server-side; we never read the email back client-side.
   (function () {
-    const ENDPOINT = 'https://subscriber.evobiosys.org/subscribe';
+    const ENDPOINT = 'https://subscriber.questhub.eco/subscribe';
     const form     = document.getElementById('cb-subscribe-form');
     const note     = document.getElementById('cb-subscribe-note');
     if (!form) return;
@@ -470,25 +471,33 @@ description: >-
         const res = await fetch(ENDPOINT, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, source: 'cosbiosys.org' })
+          body: JSON.stringify({
+            email,
+            project: 'cosbiosys',
+            source: 'cosbiosys.org',
+            gdpr: true
+          })
         });
         if (!res.ok) throw new Error('HTTP ' + res.status);
-        btn.textContent = 'Check your inbox';
-        if (note) {
-          note.textContent =
-            'Confirmation email sent. Click the link to activate — ' +
-            'this is GDPR double opt-in.';
+        const data = await res.json().catch(() => ({}));
+
+        if (data.status === 'already_subscribed') {
+          if (note) note.textContent = "You're already on the list.";
+        } else {
+          if (note) {
+            note.textContent =
+              'Almost there — check your inbox to confirm.';
+          }
         }
+        btn.disabled = false;
+        btn.textContent = origBtn;
         input.value = '';
       } catch (err) {
         btn.disabled = false;
         btn.textContent = origBtn;
         if (note) {
-          var u = 'connect', d = 'evobiosys.org', addr = u + '@' + d;
-          note.innerHTML =
-            '<span style="color:#c0392b;">Subscription failed. ' +
-            'Please email <a href="ma' + 'ilto:' + addr + '">' +
-            addr + '</a> instead.</span>';
+          note.textContent =
+            'Subscription service is briefly unavailable — please try again later.';
           setTimeout(() => { note.innerHTML = origNote; }, 8000);
         }
       }
