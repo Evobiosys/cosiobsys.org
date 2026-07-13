@@ -902,3 +902,6 @@ body.ring-active [data-ring="inner"] { display: block; }
   .cb-hero-content h1 { font-size: 2rem; }
   .cb-criterion, .cb-kind { padding: 1.75rem 1.5rem; }
 }
+
+/* Network map section */
+.cb-network-map #cb-map { margin-top: 1.2rem; }
