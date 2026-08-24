@@ -1,0 +1,455 @@
+---
+layout: default
+title: "Scenarios — CosBioSys"
+description: >-
+  Ten lived shapes a CosBioSys place can take, the nine dimensions that
+  define them, a quiz that matches a person to the shapes that actually fit,
+  and how trust travels through the mesh without a reputation score.
+permalink: /scenarios/
+---
+
+<style>
+  /* Scenarios page — scoped, reuses cosbiosys cb- variables */
+  .sc-axes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.1rem;
+    margin-top: 2rem;
+  }
+  .sc-axis {
+    padding: 1.25rem 1.4rem;
+    background: var(--cb-parchment, #fdf8f0);
+    border: 1px solid var(--cb-border, #e2d8c8);
+    border-left: 3px solid var(--cb-turquoise, #2b8c8f);
+    border-radius: 10px;
+  }
+  .sc-axis h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--cb-deep, #0e3e42);
+    margin: 0 0 0.5rem;
+  }
+  .sc-axis ul { margin: 0; padding-left: 1.1rem; }
+  .sc-axis li { font-size: 0.85rem; color: var(--cb-soil-muted, #6d5d4a); margin-bottom: 0.25rem; }
+
+  .sc-scenario-trust {
+    margin-top: 1rem;
+    padding-top: 0.9rem;
+    border-top: 1px dashed var(--cb-turquoise-light, #5ec8c2);
+  }
+  .sc-scenario-trust .cb-chips { margin-top: 0.5rem; }
+
+  .sc-friction-list { list-style: none; padding: 0; margin: 1.6rem 0 0; }
+  .sc-friction-list li {
+    display: flex;
+    gap: 0.9rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--cb-border, #e2d8c8);
+  }
+  .sc-friction-list li:first-child { border-top: none; }
+  .sc-friction-mark {
+    font-size: 1.1rem;
+    color: var(--cb-gold, #b8860b);
+    line-height: 1.5;
+    flex-shrink: 0;
+  }
+
+  .sc-quiz {
+    background: var(--cb-cream, #faf5e8);
+    border: 1px solid var(--cb-border, #e2d8c8);
+    border-radius: 14px;
+    padding: 2rem 2.2rem;
+    margin-top: 2rem;
+  }
+  .sc-quiz-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.1rem 1.6rem;
+    margin-bottom: 1.6rem;
+  }
+  .sc-quiz-q label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--cb-deep, #0e3e42);
+    margin-bottom: 0.4rem;
+  }
+  .sc-quiz-q select {
+    width: 100%;
+    padding: 0.6rem 0.7rem;
+    border: 1px solid var(--cb-border, #e2d8c8);
+    border-radius: 8px;
+    background: var(--cb-parchment, #fdf8f0);
+    color: var(--cb-soil, #2a1f15);
+    font-size: 0.88rem;
+    font-family: inherit;
+  }
+  #sc-results { margin-top: 1.8rem; }
+  .sc-result-card {
+    padding: 1.4rem 1.6rem;
+    background: var(--cb-parchment, #fdf8f0);
+    border: 1px solid var(--cb-border, #e2d8c8);
+    border-radius: 10px;
+    margin-bottom: 1rem;
+  }
+  .sc-result-card h4 {
+    margin: 0 0 0.5rem;
+    color: var(--cb-deep, #0e3e42);
+    font-size: 1.05rem;
+  }
+  .sc-result-row { font-size: 0.85rem; margin: 0.3rem 0; }
+  .sc-result-row .lbl { font-weight: 600; color: var(--cb-turquoise, #2b8c8f); margin-right: 0.4rem; }
+  .sc-result-none { color: var(--cb-soil-muted, #6d5d4a); font-style: italic; }
+
+  .sc-ways-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.1rem;
+    margin-top: 2rem;
+  }
+  .sc-way {
+    padding: 1.4rem 1.5rem;
+    background: var(--cb-parchment, #fdf8f0);
+    border: 1px solid var(--cb-border, #e2d8c8);
+    border-radius: 10px;
+  }
+  .sc-way h3 { font-size: 1rem; font-weight: 600; color: var(--cb-deep, #0e3e42); margin: 0 0 0.4rem; }
+  .sc-way p { font-size: 0.88rem; color: var(--cb-soil-muted, #6d5d4a); margin: 0 0 0.7rem; }
+
+  .sc-table-wrap { overflow-x: auto; margin-top: 1.5rem; }
+  .sc-table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 0.82rem; }
+  .sc-table th, .sc-table td { border: 1px solid var(--cb-border, #e2d8c8); padding: 0.55rem 0.7rem; text-align: left; }
+  .sc-table th { background: var(--cb-cream, #faf5e8); color: var(--cb-deep, #0e3e42); }
+
+  @media (max-width: 720px) {
+    .sc-quiz { padding: 1.5rem 1.4rem; }
+  }
+</style>
+
+<!-- Intro -->
+<section class="cb-section">
+  <div class="cb-container">
+    <p class="cb-section-label">A second layer, orthogonal to Kinds</p>
+    <h2 class="cb-section-title">Scenarios</h2>
+    <p class="cb-section-subtitle">
+      The <a href="/#kinds">six kinds</a> describe a place's relationship to
+      this family: ours, family's, friends', friend-membership, co-initiated,
+      established. Scenarios describe something different: the lived culture
+      of a place, regardless of which kind it is. A family homestead and an
+      established retreat can both run on the same governance model, or on
+      opposite ones. This page names ten of those cultures, the dimensions
+      that separate them, and where they genuinely do not mix.
+    </p>
+    <p>
+      Not ranked, same as the six kinds. A mesh needs quiet family homes and
+      loud collectives both. The point is not to rank them, it is to say
+      plainly, before anyone travels or moves in, which combinations create
+      friction and which do not.
+    </p>
+  </div>
+</section>
+
+<!-- ==================== THE MORPHBOX ==================== -->
+<section class="cb-section" style="background:var(--cb-cream);border-top:1px solid var(--cb-border);border-bottom:1px solid var(--cb-border);">
+  <div class="cb-container">
+    <p class="cb-section-label">The morphbox</p>
+    <h2 class="cb-section-title">Nine dimensions, not a mood board</h2>
+    <p class="cb-section-subtitle">
+      A <a href="https://en.wikipedia.org/wiki/Morphological_analysis" target="_blank" rel="noopener">morphological box</a>:
+      every scenario below is one coherent combination of values across
+      these nine axes. The quiz further down reads these same axes, so a
+      scenario is never described one way and matched another.
+    </p>
+
+    <div class="sc-axes-grid" id="sc-axes-grid">
+      <!-- filled by script from AXES -->
+    </div>
+  </div>
+</section>
+
+<!-- ==================== TEN SCENARIOS ==================== -->
+<section class="cb-section" id="scenarios">
+  <div class="cb-container">
+    <p class="cb-section-label">Ten scenarios</p>
+    <h2 class="cb-section-title">The shapes a culture can take</h2>
+    <p class="cb-section-subtitle">
+      Each card is one position in the morphbox above. None of them is the
+      correct one; each is correct for the people it fits.
+    </p>
+
+    <div class="cb-kinds-grid" id="sc-scenario-grid">
+      <!-- filled by script from SCENARIOS -->
+    </div>
+  </div>
+</section>
+
+<!-- ==================== WHAT FITS, WHAT DOESN'T ==================== -->
+<section class="cb-section" style="background:var(--cb-cream);border-top:1px solid var(--cb-border);">
+  <div class="cb-container cb-narrow">
+    <p class="cb-section-label">Named plainly</p>
+    <h2 class="cb-section-title">What fits, what doesn't</h2>
+    <p class="cb-section-subtitle">
+      These frictions are not judgments on either side of the pairing. A
+      late-night, low-structure punk collective and a family raising
+      school-age children are not a good match: not because either is
+      wrong, but because loud, unscheduled nights and a child's need for
+      routine and clear accountability pull against each other. Naming that
+      in advance saves everyone a bad visit.
+    </p>
+    <ul class="sc-friction-list" id="sc-friction-list">
+      <!-- filled by script from FRICTIONS -->
+    </ul>
+  </div>
+</section>
+
+<!-- ==================== QUIZ ==================== -->
+<section class="cb-section" id="quiz">
+  <div class="cb-container cb-narrow">
+    <p class="cb-section-label">Try it</p>
+    <h2 class="cb-section-title">Which scenarios fit you</h2>
+    <p class="cb-section-subtitle">
+      Answer for where you are now, not where you'd like to be. The result
+      names what aligns and what doesn't, on purpose: a percentage would
+      hide exactly the information you came here for.
+    </p>
+
+    <div class="sc-quiz">
+      <div class="sc-quiz-grid" id="sc-quiz-grid">
+        <!-- filled by script from AXES -->
+      </div>
+      <button type="button" class="cb-btn cb-btn-primary" id="sc-quiz-submit">Find my fit</button>
+      <div id="sc-results"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== WAYS OF COMMUNITY ==================== -->
+<section class="cb-section" style="background:var(--cb-cream);border-top:1px solid var(--cb-border);">
+  <div class="cb-container">
+    <p class="cb-section-label">Structure, separate from culture</p>
+    <h2 class="cb-section-title">Ways of community</h2>
+    <p class="cb-section-subtitle">
+      Five legal and structural forms a place can take. A form does not fix
+      a culture: two land trusts can feel nothing alike. This is the tenure
+      axis from the morphbox above, spelled out, with the scenarios that
+      currently use each form.
+    </p>
+
+    <div class="sc-ways-grid" id="sc-ways-grid">
+      <!-- filled by script from WAYS -->
+    </div>
+  </div>
+</section>
+
+<!-- ==================== WEB OF TRUST ==================== -->
+<section class="cb-section cb-rings" id="web-of-trust">
+  <div class="cb-container cb-narrow">
+    <p class="cb-section-label">How access actually works</p>
+    <h2 class="cb-section-title">Web of trust, in practice</h2>
+    <p>
+      CosBioSys does not run a reputation score. No points for attestations
+      logged over time, no on-chain history to inspect before a stay. That
+      is a deliberate choice, not an oversight: attestation-based reputation
+      is a well-trodden pattern elsewhere, and it substitutes a protocol for
+      a relationship. Here, trust travels the older way, through a named
+      person who vouches, and through a trial stay that either confirms the
+      fit or doesn't.
+    </p>
+    <p>
+      This is the same pattern as the <a href="/#rings">two rings</a> on the
+      home page. The outer ring, the shape of the mesh, is public. The inner
+      ring, who is actually where, opens through a token shared in person or
+      over a trusted channel, not through a form or a score. The
+      permeability axis in the morphbox (closed and vetted, open drop-in,
+      trial stay then a vote) is that same mechanism, named per scenario.
+    </p>
+  </div>
+</section>
+
+<!-- ==================== PARENT LINK ==================== -->
+<section class="cb-section cb-parent-link">
+  <div class="cb-container cb-narrow cb-centered">
+    <p class="cb-section-label">Back to the mesh</p>
+    <h2 class="cb-section-title">Scenarios sit inside the six kinds</h2>
+    <p>
+      Every scenario above can attach to any of the <a href="/#kinds">six
+      kinds</a> of place. See how the kinds connect across the
+      <a href="/#mesh">nine regions</a>, or visit the two rural and urban
+      hubs already running on the ground at
+      <a href="/community-hubs/">Community Hubs</a>.
+    </p>
+    <a href="/" class="cb-btn cb-btn-primary">Back to CosBioSys</a>
+  </div>
+</section>
+
+<script>
+(function () {
+  var AXES = [
+    { id: 'tenure',       label: 'Tenure & ownership',       values: ['owner-hosted guest', 'rent-share collective', 'co-op equity', 'land trust', 'monastic / institutional'] },
+    { id: 'governance',   label: 'Governance',                values: ['one steward decides', 'consensus circle', 'elected council', 'no formal structure'] },
+    { id: 'economy',      label: 'Economic sharing',          values: ['separate purses', 'shared meals only', 'partial common purse', 'full common purse'] },
+    { id: 'ideology',     label: 'Explicitness of belief',    values: ['none stated', 'spiritual practice woven in', 'a stated ideology', 'open to all beliefs'] },
+    { id: 'children',     label: 'Children',                  values: ['no children present', 'children welcome, no structure', 'children central, with schooling'] },
+    { id: 'rhythm',       label: 'Daily rhythm',               values: ['quiet and early', 'flexible', 'late-night and loud'] },
+    { id: 'labor',        label: 'Labor obligation',           values: ['none expected', 'light rotation (a few hrs/week)', 'substantial work-trade'] },
+    { id: 'permeability', label: 'Membership permeability',    values: ['closed and vetted', 'open drop-in', 'trial stay, then a vote'] },
+    { id: 'horizon',      label: 'Commitment horizon',         values: ['a night or a weekend', 'weeks to a season', 'years, or permanent'] }
+  ];
+
+  var SCENARIOS = [
+    { name: 'Family Homestead', icon: '✋', blurb: 'One household, close in, built for the long run.',
+      v: { tenure: 'owner-hosted guest', governance: 'one steward decides', economy: 'shared meals only', ideology: 'none stated', children: 'children central, with schooling', rhythm: 'quiet and early', labor: 'light rotation (a few hrs/week)', permeability: 'closed and vetted', horizon: 'years, or permanent' } },
+    { name: 'Family-Friendly Co-housing', icon: '✦', blurb: 'Several households, shared equity, a council that decides together.',
+      v: { tenure: 'co-op equity', governance: 'elected council', economy: 'partial common purse', ideology: 'none stated', children: 'children central, with schooling', rhythm: 'flexible', labor: 'light rotation (a few hrs/week)', permeability: 'trial stay, then a vote', horizon: 'years, or permanent' } },
+    { name: 'Eco-Village Commons', icon: '❀', blurb: 'Land held in trust, decisions by consensus, work-trade instead of rent.',
+      v: { tenure: 'land trust', governance: 'consensus circle', economy: 'partial common purse', ideology: 'spiritual practice woven in', children: 'children welcome, no structure', rhythm: 'flexible', labor: 'substantial work-trade', permeability: 'trial stay, then a vote', horizon: 'years, or permanent' } },
+    { name: 'Urban Integral Hub', icon: '☉', blurb: 'A city collective built around shared practice, not shared property.',
+      v: { tenure: 'rent-share collective', governance: 'elected council', economy: 'shared meals only', ideology: 'spiritual practice woven in', children: 'no children present', rhythm: 'quiet and early', labor: 'light rotation (a few hrs/week)', permeability: 'open drop-in', horizon: 'weeks to a season' } },
+    { name: 'DIY Collective', icon: '☠', blurb: 'Low structure, low cost, high autonomy. Rhythm sets its own hours.',
+      v: { tenure: 'rent-share collective', governance: 'no formal structure', economy: 'separate purses', ideology: 'a stated ideology', children: 'no children present', rhythm: 'late-night and loud', labor: 'none expected', permeability: 'open drop-in', horizon: 'a night or a weekend' } },
+    { name: 'Retreat Cooperative', icon: '✥', blurb: 'A held theme, a council that runs it, a season-length stay.',
+      v: { tenure: 'land trust', governance: 'elected council', economy: 'partial common purse', ideology: 'a stated ideology', children: 'no children present', rhythm: 'quiet and early', labor: 'substantial work-trade', permeability: 'trial stay, then a vote', horizon: 'weeks to a season' } },
+    { name: 'Horse Community / Land Guild', icon: '⚘', blurb: 'Craft and land work, one steward, built to outlast a generation.',
+      v: { tenure: 'co-op equity', governance: 'one steward decides', economy: 'shared meals only', ideology: 'none stated', children: 'children welcome, no structure', rhythm: 'flexible', labor: 'substantial work-trade', permeability: 'closed and vetted', horizon: 'years, or permanent' } },
+    { name: 'Digital Nomad Co-living', icon: '☁', blurb: 'Rent a room, keep your own hours, stay a season and move on.',
+      v: { tenure: 'rent-share collective', governance: 'no formal structure', economy: 'separate purses', ideology: 'none stated', children: 'no children present', rhythm: 'flexible', labor: 'none expected', permeability: 'open drop-in', horizon: 'weeks to a season' } },
+    { name: 'Monastic-Model Retreat', icon: '✴', blurb: 'One rule, one purse, a steward who holds both.',
+      v: { tenure: 'monastic / institutional', governance: 'one steward decides', economy: 'full common purse', ideology: 'a stated ideology', children: 'no children present', rhythm: 'quiet and early', labor: 'substantial work-trade', permeability: 'closed and vetted', horizon: 'years, or permanent' } },
+    { name: "Friend's Second Home", icon: '❤', blurb: 'No structure at all, because it was never meant to need one.',
+      v: { tenure: 'owner-hosted guest', governance: 'one steward decides', economy: 'separate purses', ideology: 'none stated', children: 'children welcome, no structure', rhythm: 'flexible', labor: 'none expected', permeability: 'closed and vetted', horizon: 'a night or a weekend' } }
+  ];
+
+  // Pairwise axis-value collisions. Each rule fires when a scenario (or a
+  // quiz answer) holds BOTH values, regardless of which scenario it came
+  // from — this is what makes frictions fall out of the axes instead of
+  // being hand-typed per scenario pair.
+  var FRICTIONS = [
+    { a: { axis: 'rhythm', value: 'late-night and loud' }, b: { axis: 'children', value: 'children central, with schooling' },
+      label: 'Late-night, unscheduled rhythm vs. a child’s need for routine.' },
+    { a: { axis: 'rhythm', value: 'late-night and loud' }, b: { axis: 'children', value: 'children welcome, no structure' },
+      label: 'Loud nights vs. children present, even without a fixed schedule.' },
+    { a: { axis: 'governance', value: 'no formal structure' }, b: { axis: 'children', value: 'children central, with schooling' },
+      label: 'No formal decision-making vs. the accountability a family needs.' },
+    { a: { axis: 'economy', value: 'full common purse' }, b: { axis: 'permeability', value: 'open drop-in' },
+      label: 'Pooled finances vs. members who can leave without notice.' },
+    { a: { axis: 'labor', value: 'substantial work-trade' }, b: { axis: 'horizon', value: 'a night or a weekend' },
+      label: 'Work-trade obligations vs. a stay too short to work them off.' },
+    { a: { axis: 'permeability', value: 'closed and vetted' }, b: { axis: 'horizon', value: 'a night or a weekend' },
+      label: 'A vetting process vs. wanting in for a single night.' }
+  ];
+
+  var WAYS = [
+    { id: 'owner-hosted guest', name: 'Owner-hosted guest', desc: 'One person or household holds the property outright and hosts by invitation.' },
+    { id: 'rent-share collective', name: 'Rent-share collective', desc: 'A group rents together and splits cost; no one owns the equity.' },
+    { id: 'co-op equity', name: 'Co-op equity', desc: 'Members hold shares in a cooperative that owns the property collectively.' },
+    { id: 'land trust', name: 'Land trust', desc: 'Land is held by a trust for the community’s long-term use, not resold for profit.' },
+    { id: 'monastic / institutional', name: 'Monastic / institutional', desc: 'An institution holds the property under a standing rule that outlives any one steward.' }
+  ];
+
+  function chip(text) {
+    return '<li class="cb-chip cb-chip-visible">' + text + '</li>';
+  }
+
+  // ---- render axes ----
+  var axesGrid = document.getElementById('sc-axes-grid');
+  AXES.forEach(function (ax) {
+    var el = document.createElement('div');
+    el.className = 'sc-axis';
+    el.innerHTML = '<h3>' + ax.label + '</h3><ul>' +
+      ax.values.map(function (v) { return '<li>' + v + '</li>'; }).join('') + '</ul>';
+    axesGrid.appendChild(el);
+  });
+
+  // ---- render scenarios ----
+  var scenarioGrid = document.getElementById('sc-scenario-grid');
+  SCENARIOS.forEach(function (s) {
+    var el = document.createElement('article');
+    el.className = 'cb-kind';
+    var chips = Object.keys(s.v).map(function (k) { return chip(s.v[k]); }).join('');
+    el.innerHTML =
+      '<div class="cb-kind-icon">' + s.icon + '</div>' +
+      '<h3>' + s.name + '</h3>' +
+      '<p>' + s.blurb + '</p>' +
+      '<div class="sc-scenario-trust"><ul class="cb-chips">' + chips + '</ul></div>';
+    scenarioGrid.appendChild(el);
+  });
+
+  // ---- render frictions ----
+  var frictionList = document.getElementById('sc-friction-list');
+  FRICTIONS.forEach(function (f) {
+    var li = document.createElement('li');
+    li.innerHTML = '<span class="sc-friction-mark">△</span><span>' + f.label + '</span>';
+    frictionList.appendChild(li);
+  });
+
+  // ---- render ways of community ----
+  var waysGrid = document.getElementById('sc-ways-grid');
+  WAYS.forEach(function (w) {
+    var used = SCENARIOS.filter(function (s) { return s.v.tenure === w.id; }).map(function (s) { return s.name; });
+    var el = document.createElement('div');
+    el.className = 'sc-way';
+    el.innerHTML = '<h3>' + w.name + '</h3><p>' + w.desc + '</p><ul class="cb-chips">' +
+      used.map(chip).join('') + '</ul>';
+    waysGrid.appendChild(el);
+  });
+
+  // ---- render quiz ----
+  var quizGrid = document.getElementById('sc-quiz-grid');
+  AXES.forEach(function (ax) {
+    var wrap = document.createElement('div');
+    wrap.className = 'sc-quiz-q';
+    var opts = ax.values.map(function (v) { return '<option value="' + v + '">' + v + '</option>'; }).join('');
+    wrap.innerHTML = '<label for="sc-q-' + ax.id + '">' + ax.label + '</label>' +
+      '<select id="sc-q-' + ax.id + '" data-axis="' + ax.id + '">' + opts + '</select>';
+    quizGrid.appendChild(wrap);
+  });
+
+  function findFrictions(answers, scenarioValues) {
+    var hits = [];
+    FRICTIONS.forEach(function (f) {
+      var sides = [f.a, f.b];
+      // fires if one side matches the user's answer and the other matches the scenario's value
+      for (var i = 0; i < 2; i++) {
+        var userSide = sides[i];
+        var scenSide = sides[1 - i];
+        if (answers[userSide.axis] === userSide.value && scenarioValues[scenSide.axis] === scenSide.value) {
+          hits.push(f.label);
+          break;
+        }
+      }
+    });
+    return hits;
+  }
+
+  document.getElementById('sc-quiz-submit').addEventListener('click', function () {
+    var answers = {};
+    AXES.forEach(function (ax) {
+      answers[ax.id] = document.getElementById('sc-q-' + ax.id).value;
+    });
+
+    var scored = SCENARIOS.map(function (s) {
+      var aligns = AXES.filter(function (ax) { return s.v[ax.id] === answers[ax.id]; }).map(function (ax) { return ax.label; });
+      var frictions = findFrictions(answers, s.v);
+      return { name: s.name, aligns: aligns, frictions: frictions };
+    });
+
+    scored.sort(function (a, b) {
+      if (a.aligns.length !== b.aligns.length) return b.aligns.length - a.aligns.length;
+      return a.frictions.length - b.frictions.length;
+    });
+
+    var top = scored.slice(0, 3);
+    var results = document.getElementById('sc-results');
+    results.innerHTML = top.map(function (r) {
+      var alignsHtml = r.aligns.length
+        ? '<div class="sc-result-row"><span class="lbl">Aligns on:</span>' + r.aligns.join(', ') + '</div>'
+        : '<div class="sc-result-row sc-result-none">No direct alignment on the nine axes.</div>';
+      var frictionHtml = r.frictions.length
+        ? '<div class="sc-result-row"><span class="lbl">Friction:</span>' + r.frictions.join(' · ') + '</div>'
+        : '<div class="sc-result-row"><span class="lbl">Friction:</span> none of the known frictions apply.</div>';
+      return '<div class="sc-result-card"><h4>' + r.name + '</h4>' + alignsHtml + frictionHtml + '</div>';
+    }).join('');
+    results.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+})();
+</script>
