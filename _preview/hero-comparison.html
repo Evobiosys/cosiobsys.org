@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero integration preview — CosBioSys</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+<style>
+  /* Hero comparison preview — scoped, reuses cosbiosys cb- variables.
+     Not a Jekyll page: static file, never built by the site. */
+
+  body { padding: 0; }
+
+  .hc-page {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4rem;
+    /* palette lifted from the COS-A/COS-B drafts, kept local to this page */
+    --hc-root: #7a4a24;
+    --hc-glow: #8a5312;
+    --hc-cosmic: #33507a;
+  }
+
+  .hc-intro { max-width: 46rem; margin: 0 auto 2.5rem; text-align: center; }
+  .hc-eyebrow-mini {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cb-turquoise, #2b8c8f);
+    margin-bottom: 0.6rem;
+  }
+  .hc-page-title {
+    font-size: clamp(1.6rem, 4vw, 2.3rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--cb-deep, #0e3e42);
+    margin-bottom: 0.75rem;
+  }
+  .hc-page-sub {
+    font-size: 0.98rem;
+    color: var(--cb-soil-muted, #6d5d4a);
+  }
+
+  /* ---------- two-column comparison shell ---------- */
+  .hc-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.75rem;
+    align-items: start;
+  }
+
+  .hc-col {
+    border: 1px solid var(--cb-border, #e2d8c8);
+    border-radius: 16px;
+    padding: 2rem 1.75rem 2.25rem;
+    background:
+      radial-gradient(ellipse at 15% 10%, rgba(43, 140, 143, 0.06) 0%, transparent 55%),
+      radial-gradient(ellipse at 90% 85%, rgba(184, 134, 11, 0.06) 0%, transparent 50%),
+      var(--cb-parchment, #fdf8f0);
+  }
+
+  .hc-col-label {
+    display: inline-block;
+    padding: 0.3rem 0.9rem;
+    border-radius: 100px;
+    background: rgba(43, 140, 143, 0.12);
+    color: var(--cb-turquoise, #2b8c8f);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 0 0 1.4rem;
+  }
+
+  /* ---------- shared hero block (both versions) ---------- */
+  .hc-hero-copy .cb-eyebrow { margin-bottom: 1.1rem; }
+
+  .hc-h1 {
+    font-size: clamp(1.5rem, 3.6vw, 2.05rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+    color: var(--cb-deep, #0e3e42);
+    margin: 0 0 0.9rem;
+  }
+  .hc-h1 em { font-style: italic; color: var(--cb-turquoise, #2b8c8f); }
+
+  .hc-essence {
+    font-size: clamp(0.95rem, 2vw, 1.05rem);
+    color: var(--cb-soil-muted, #6d5d4a);
+    max-width: 32rem;
+    margin: 0 0 1.6rem;
+  }
+  .hc-essence strong { color: var(--cb-deep, #0e3e42); font-weight: 600; }
+
+  .hc-hero-viz {
+    width: 100%;
+    max-width: 24rem;
+    margin: 0 auto;
+  }
+  .hc-hero-viz svg { display: block; width: 100%; height: auto; }
+
+  /* ---------- Version 1 visual: COS-A animated sprout/roots ---------- */
+  .hc-v1 .soil-line { stroke: var(--cb-border, #e2d8c8); stroke-width: 1.5; }
+
+  .hc-v1 .stem { stroke: var(--hc-root); stroke-width: 4; fill: none; stroke-linecap: round; }
+
+  .hc-v1 .leaf { fill: var(--hc-glow); opacity: 0.9; transform-box: fill-box; }
+  .hc-v1 .leaf-l { transform-origin: 100% 100%; animation: hc-sway-l 6s ease-in-out infinite; }
+  .hc-v1 .leaf-r { transform-origin: 0% 100%; animation: hc-sway-r 6.6s ease-in-out infinite; }
+  .hc-v1 .leaf-top { transform-origin: 50% 100%; animation: hc-sway-l 7.2s ease-in-out infinite; }
+
+  @keyframes hc-sway-l {
+    0%, 100% { transform: rotate(-4deg); }
+    50% { transform: rotate(3deg); }
+  }
+  @keyframes hc-sway-r {
+    0%, 100% { transform: rotate(4deg); }
+    50% { transform: rotate(-3deg); }
+  }
+
+  .hc-v1 .root {
+    stroke: var(--hc-root);
+    stroke-width: 2.5;
+    fill: none;
+    stroke-linecap: round;
+    opacity: 0.85;
+  }
+
+  .hc-v1 .thread {
+    stroke: var(--hc-cosmic);
+    fill: none;
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    opacity: 0.55;
+    animation: hc-pulse-thread 5s ease-in-out infinite;
+  }
+  @keyframes hc-pulse-thread {
+    0%, 100% { opacity: 0.28; }
+    50% { opacity: 0.65; }
+  }
+
+  .hc-v1 .node {
+    fill: var(--hc-cosmic);
+    animation: hc-pulse-node 4s ease-in-out infinite;
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+  }
+  @keyframes hc-pulse-node {
+    0%, 100% { opacity: 0.55; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.35); }
+  }
+
+  .hc-v1 .seed {
+    fill: var(--hc-glow);
+    animation: hc-pulse-node 3.4s ease-in-out infinite;
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+  }
+
+  /* ---------- Version 2 visual: COS-C stage, frozen at t = 0.5 ---------- */
+  .hc-v2 .hc-stage {
+    /* baked from COS-C's render(t) at slider value 50 (t = 0.5) — see report
+       for the arithmetic. No slider, no JS: these are static values. */
+    --stage-edge: rgb(36, 27, 31);
+    --stage-mid: rgb(65, 47, 50);
+    --node-fill: rgb(146, 125, 153);
+    --grain-op: 0.275;
+    --star-op: 0.5;
+    --glow-op: 0.425;
+    --local-op: 0.15;
+    --cosmic-op: 0.15;
+
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.1rem;
+    border: 1px solid var(--cb-border, #e2d8c8);
+    box-shadow: 0 1.2rem 2.4rem -1.5rem rgba(0, 0, 0, 0.5);
+    background: radial-gradient(circle at 50% 45%, var(--stage-mid), var(--stage-edge) 78%);
+  }
+  .hc-v2 .hc-stage svg { width: 100%; height: 100%; display: block; }
+
+  .hc-v2 .grain {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 226, 170, 0.35) 1px, transparent 1.4px);
+    background-size: 14px 14px;
+    opacity: var(--grain-op);
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+
+  .hc-v2 .starfield circle { fill: #f4ecd8; opacity: var(--star-op); }
+  .hc-v2 .pattern-glow { opacity: var(--glow-op); }
+
+  .hc-v2 .branch { fill: none; stroke: #c99a4a; stroke-width: 1.6; stroke-linecap: round; opacity: 0.9; }
+  .hc-v2 .twig { fill: none; stroke: #c99a4a; stroke-width: 1; opacity: 0.6; }
+  .hc-v2 .node { fill: var(--node-fill); stroke: #f4ecd8; stroke-width: 1; }
+  .hc-v2 .node.core { fill: #e8c98a; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hc-v2 .node { animation: hc-breathe 5.5s ease-in-out infinite; }
+    .hc-v2 .node:nth-of-type(2n) { animation-delay: -1.3s; }
+    .hc-v2 .node:nth-of-type(3n) { animation-delay: -2.6s; }
+  }
+  @keyframes hc-breathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.18); }
+  }
+
+  .hc-v2 .labels { position: absolute; inset: 0; pointer-events: none; }
+  .hc-v2 .label {
+    position: absolute;
+    font-size: 0.68rem;
+    line-height: 1.25;
+    color: #f4ecd8;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+    max-width: 7.5rem;
+  }
+  .hc-v2 .label.local { opacity: var(--local-op); }
+  .hc-v2 .label.cosmic { opacity: var(--cosmic-op); }
+
+  .hc-v2 .l1 { top: 8%; left: 6%; }
+  .hc-v2 .l2 { bottom: 10%; left: 4%; }
+  .hc-v2 .l3 { top: 46%; right: 4%; text-align: right; max-width: 6.5rem; }
+  .hc-v2 .c1 { top: 6%; right: 6%; text-align: right; }
+  .hc-v2 .c2 { bottom: 8%; right: 6%; text-align: right; }
+  .hc-v2 .c3 { top: 48%; left: 3%; max-width: 6rem; }
+
+  /* ---------- Local / Global copy (COS-B), shared by both columns ---------- */
+  .hc-copy { margin-top: 2rem; }
+  .hc-copy section { margin-bottom: 1.6rem; }
+  .hc-copy section:last-child { margin-bottom: 0; }
+  .hc-copy h4 {
+    font-size: 0.76rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin: 0 0 0.7rem;
+  }
+  .hc-local h4 { color: var(--hc-root); }
+  .hc-global h4 { color: var(--hc-cosmic); }
+  .hc-copy p {
+    font-size: 0.95rem;
+    color: var(--cb-soil, #2a1f15);
+    margin: 0 0 0.8rem;
+  }
+  .hc-copy p:last-child { margin-bottom: 0; }
+  .hc-copy mark { background: none; font-style: italic; }
+  .hc-local mark { color: var(--hc-root); }
+  .hc-global mark { color: var(--hc-cosmic); }
+
+  /* ---------- duo panel (COS-A), shared by both columns ---------- */
+  .hc-duo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .hc-duo .hc-panel {
+    padding: 1.1rem 1.2rem;
+    border: 1px solid var(--cb-border, #e2d8c8);
+    border-radius: 10px;
+    background: rgba(253, 248, 240, 0.6);
+  }
+  .hc-duo .hc-panel h4 {
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: var(--cb-deep, #0e3e42);
+    margin: 0.5rem 0 0.4rem;
+  }
+  .hc-duo .hc-panel p {
+    margin: 0;
+    color: var(--cb-soil-muted, #6d5d4a);
+    font-size: 0.85rem;
+  }
+
+  .glyph { width: 2.1rem; height: 2.1rem; }
+  .glyph-local circle { fill: var(--hc-root); }
+  .glyph-local .ring {
+    fill: none;
+    stroke: var(--hc-root);
+    stroke-width: 1.4;
+    opacity: 0.5;
+    animation: hc-pulse-node 3.6s ease-in-out infinite;
+  }
+  .glyph-global .n { fill: var(--hc-cosmic); animation: hc-pulse-node 4.2s ease-in-out infinite; }
+  .glyph-global .n:nth-child(2) { animation-delay: 0.5s; }
+  .glyph-global .n:nth-child(3) { animation-delay: 1s; }
+  .glyph-global .link { stroke: var(--hc-cosmic); stroke-width: 1; opacity: 0.4; }
+
+  .hc-closing {
+    margin-top: 2rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--cb-border, #e2d8c8);
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--cb-deep, #0e3e42);
+  }
+
+  .hc-note {
+    max-width: 46rem;
+    margin: 2.5rem auto 0;
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--cb-soil-muted, #6d5d4a);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hc-v1 .leaf-l, .hc-v1 .leaf-r, .hc-v1 .leaf-top,
+    .hc-v1 .thread, .hc-v1 .node, .hc-v1 .seed,
+    .glyph-local .ring, .glyph-global .n,
+    .hc-v2 .node {
+      animation: none !important;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .hc-compare { grid-template-columns: 1fr; }
+    .hc-col { padding: 1.5rem 1.25rem 1.75rem; }
+    .hc-duo { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<main class="hc-page">
+
+  <header class="hc-intro">
+    <p class="hc-eyebrow-mini">CosBioSys &middot; internal preview, not part of the live site</p>
+    <h1 class="hc-page-title">Hero integration: two candidates</h1>
+    <p class="hc-page-sub">
+      Both versions share CosBioSys copy from the COS-B draft and the COS-A duo
+      panel throughout; Version 1 leads with COS-A's animated sprout and roots,
+      Version 2 leads with COS-C's circular stage frozen at its local and
+      cosmic midpoint.
+    </p>
+  </header>
+
+  <div class="hc-compare">
+
+    <!-- ============================================================
+         VERSION 1 — COS-B text + COS-A subtext + COS-A animated visual
+         ============================================================ -->
+    <section class="hc-col hc-v1">
+      <h2 class="hc-col-label">Version 1</h2>
+
+      <div class="hc-hero-copy">
+        <span class="cb-eyebrow">CosBioSys &middot; sister holon of EvoBioSys</span>
+        <h3 class="hc-h1">Rooted here.<br>Reaching <em>everywhere</em>.</h3>
+        <p class="hc-essence"><strong>CosBioSys</strong> is a guild cultivating regenerative ways of living: cosmo-local in practice, grounded in one place, in kinship with many.</p>
+      </div>
+
+      <div class="hc-hero-viz">
+        <svg viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A sprout growing above a soil line, its roots below the line widening into a mycelial network that reaches glowing nodes scattered across the field, representing local practice connected to a global network.">
+
+          <!-- distant guild nodes, reached by mycelial threads -->
+          <g>
+            <path class="thread" d="M400,300 C300,220 180,180 90,120" />
+            <path class="thread" d="M400,300 C480,210 560,150 690,90" style="animation-delay:0.6s" />
+            <path class="thread" d="M400,300 C340,240 260,230 150,240" style="animation-delay:1.2s" />
+            <path class="thread" d="M400,300 C470,250 570,260 720,220" style="animation-delay:1.8s" />
+            <path class="thread" d="M400,300 C380,220 400,140 430,70" style="animation-delay:2.4s" />
+
+            <circle class="node" cx="90" cy="120" r="5" />
+            <circle class="node" cx="690" cy="90" r="4.5" style="animation-delay:0.8s" />
+            <circle class="node" cx="150" cy="240" r="4" style="animation-delay:1.4s" />
+            <circle class="node" cx="720" cy="220" r="5" style="animation-delay:2s" />
+            <circle class="node" cx="430" cy="70" r="4" style="animation-delay:0.3s" />
+          </g>
+
+          <!-- soil line: above = the visible local garden, below = the hidden shared network -->
+          <line class="soil-line" x1="20" y1="330" x2="780" y2="330" />
+
+          <!-- roots, below the line -->
+          <g>
+            <path class="root" d="M400,330 C380,370 340,380 300,430" />
+            <path class="root" d="M400,330 C420,375 460,390 500,440" />
+            <path class="root" d="M400,330 C395,380 370,420 360,470" />
+            <path class="root" d="M400,330 C405,385 430,415 445,465" />
+            <path class="root" d="M400,330 C400,390 400,430 400,480" />
+          </g>
+
+          <!-- stem and leaves, above the line -->
+          <path class="stem" d="M400,330 C398,270 402,220 400,170" />
+          <ellipse class="leaf leaf-l" cx="368" cy="260" rx="26" ry="12" transform="rotate(-24 368 260)" />
+          <ellipse class="leaf leaf-r" cx="432" cy="230" rx="26" ry="12" transform="rotate(24 432 230)" />
+          <ellipse class="leaf leaf-top" cx="400" cy="168" rx="18" ry="26" />
+
+          <!-- the seed, where local and global meet -->
+          <circle class="seed" cx="400" cy="330" r="7" />
+        </svg>
+      </div>
+
+      <div class="hc-copy">
+        <section class="hc-local">
+          <h4>Local</h4>
+          <p>Every regenerative practice starts on the ground someone actually stands on: <mark>this soil</mark>, <mark>these neighbors</mark>, <mark>this season</mark>.</p>
+          <p>CosBioSys members tend real places first. A guild is not a headquarters, it is many hands doing local work well.</p>
+        </section>
+        <section class="hc-global">
+          <h4>Global</h4>
+          <p>What grows well in one place gets passed on like a cutting from a garden: to <mark>sister guilds</mark>, into <mark>shared commons</mark>, through <mark>open methods</mark> anyone can replant.</p>
+          <p>CosBioSys stays in kinship with EvoBioSys and other holons doing regenerative work elsewhere, so no place has to learn everything alone.</p>
+        </section>
+      </div>
+
+      <div class="hc-duo">
+        <div class="hc-panel">
+          <svg class="glyph glyph-local" viewBox="0 0 40 40" aria-hidden="true">
+            <circle class="ring" cx="20" cy="20" r="16" />
+            <circle cx="20" cy="20" r="6" />
+          </svg>
+          <h4>Rooted locally</h4>
+          <p>Practices grow from real soil, real neighbors, one place at a time.</p>
+        </div>
+        <div class="hc-panel">
+          <svg class="glyph glyph-global" viewBox="0 0 40 40" aria-hidden="true">
+            <line class="link" x1="20" y1="20" x2="6" y2="10" />
+            <line class="link" x1="20" y1="20" x2="34" y2="8" />
+            <line class="link" x1="20" y1="20" x2="30" y2="32" />
+            <circle class="n" cx="20" cy="20" r="4" />
+            <circle class="n" cx="6" cy="10" r="3" />
+            <circle class="n" cx="34" cy="8" r="3" />
+            <circle class="n" cx="30" cy="32" r="3" />
+          </svg>
+          <h4>Connected globally</h4>
+          <p>What one place learns travels the network, and returns changed.</p>
+        </div>
+      </div>
+
+      <p class="hc-closing">Local roots, global reach: one living guild.</p>
+    </section>
+
+    <!-- ============================================================
+         VERSION 2 — COS-B text + COS-A subtext + COS-C visual, frozen
+         ============================================================ -->
+    <section class="hc-col hc-v2">
+      <h2 class="hc-col-label">Version 2</h2>
+
+      <div class="hc-hero-copy">
+        <span class="cb-eyebrow">CosBioSys &middot; sister holon of EvoBioSys</span>
+        <h3 class="hc-h1">Rooted here.<br>Reaching <em>everywhere</em>.</h3>
+        <p class="hc-essence"><strong>CosBioSys</strong> is a guild cultivating regenerative ways of living: cosmo-local in practice, grounded in one place, in kinship with many.</p>
+      </div>
+
+      <div class="hc-hero-viz">
+        <div class="hc-stage">
+          <svg viewBox="0 0 400 400" aria-hidden="true">
+            <defs>
+              <radialGradient id="hc-glow" cx="50%" cy="50%" r="60%">
+                <stop offset="0%" stop-color="#9fb2ff" stop-opacity="0.55" />
+                <stop offset="100%" stop-color="#9fb2ff" stop-opacity="0" />
+              </radialGradient>
+            </defs>
+
+            <circle class="pattern-glow" cx="200" cy="200" r="170" fill="url(#hc-glow)" />
+
+            <g class="starfield">
+              <circle cx="34" cy="52" r="1.1" /><circle cx="61" cy="120" r="0.8" />
+              <circle cx="22" cy="210" r="1.3" /><circle cx="48" cy="300" r="0.9" />
+              <circle cx="80" cy="360" r="1" /><circle cx="130" cy="30" r="0.8" />
+              <circle cx="330" cy="45" r="1.2" /><circle cx="365" cy="110" r="0.9" />
+              <circle cx="372" cy="220" r="1.1" /><circle cx="350" cy="310" r="0.8" />
+              <circle cx="300" cy="365" r="1" /><circle cx="250" cy="18" r="0.9" />
+              <circle cx="150" cy="375" r="1.1" /><circle cx="12" cy="150" r="0.7" />
+              <circle cx="388" cy="270" r="1" /><circle cx="200" cy="10" r="0.8" />
+              <circle cx="200" cy="392" r="0.9" /><circle cx="95" cy="80" r="0.7" />
+              <circle cx="310" cy="150" r="0.9" /><circle cx="270" cy="330" r="0.8" />
+            </g>
+
+            <!-- same branching pattern, root system at one scale, star lanes at the other -->
+            <g>
+              <path class="branch" d="M200,200 C185,150 170,110 150,60" />
+              <path class="twig"   d="M170,110 C155,100 140,96 128,84" />
+              <path class="branch" d="M200,200 C230,160 255,120 260,65" />
+              <path class="twig"   d="M245,135 C260,122 272,116 288,106" />
+              <path class="branch" d="M200,200 C250,190 300,180 350,165" />
+              <path class="twig"   d="M290,183 C300,170 308,160 320,148" />
+              <path class="branch" d="M200,200 C245,225 290,255 335,290" />
+              <path class="twig"   d="M280,255 C292,264 302,270 315,282" />
+              <path class="branch" d="M200,200 C210,250 222,300 235,350" />
+              <path class="twig"   d="M220,290 C232,296 242,302 253,314" />
+              <path class="branch" d="M200,200 C175,245 148,285 118,325" />
+              <path class="twig"   d="M155,275 C142,282 132,288 118,298" />
+              <path class="branch" d="M200,200 C160,205 108,215 60,225" />
+              <path class="twig"   d="M115,213 C102,222 92,228 78,238" />
+              <path class="branch" d="M200,200 C160,175 120,148 78,112" />
+              <path class="twig"   d="M130,155 C118,146 108,140 94,130" />
+
+              <circle class="node core" cx="200" cy="200" r="9" />
+              <circle class="node" cx="150" cy="60" r="5" />
+              <circle class="node" cx="128" cy="84" r="3" />
+              <circle class="node" cx="260" cy="65" r="5" />
+              <circle class="node" cx="288" cy="106" r="3" />
+              <circle class="node" cx="350" cy="165" r="5" />
+              <circle class="node" cx="320" cy="148" r="3" />
+              <circle class="node" cx="335" cy="290" r="5" />
+              <circle class="node" cx="315" cy="282" r="3" />
+              <circle class="node" cx="235" cy="350" r="5" />
+              <circle class="node" cx="253" cy="314" r="3" />
+              <circle class="node" cx="118" cy="325" r="5" />
+              <circle class="node" cx="118" cy="298" r="3" />
+              <circle class="node" cx="60" cy="225" r="5" />
+              <circle class="node" cx="78" cy="238" r="3" />
+              <circle class="node" cx="78" cy="112" r="5" />
+              <circle class="node" cx="94" cy="130" r="3" />
+            </g>
+          </svg>
+
+          <div class="grain"></div>
+
+          <div class="labels">
+            <div class="label local l1">your street, your stoop</div>
+            <div class="label local l2">shared soil, shared care</div>
+            <div class="label local l3">the local guild circle</div>
+            <div class="label cosmic c1">sibling guilds, everywhere</div>
+            <div class="label cosmic c2">one planet, many hands</div>
+            <div class="label cosmic c3">the wider web of life</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hc-copy">
+        <section class="hc-local">
+          <h4>Local</h4>
+          <p>Every regenerative practice starts on the ground someone actually stands on: <mark>this soil</mark>, <mark>these neighbors</mark>, <mark>this season</mark>.</p>
+          <p>CosBioSys members tend real places first. A guild is not a headquarters, it is many hands doing local work well.</p>
+        </section>
+        <section class="hc-global">
+          <h4>Global</h4>
+          <p>What grows well in one place gets passed on like a cutting from a garden: to <mark>sister guilds</mark>, into <mark>shared commons</mark>, through <mark>open methods</mark> anyone can replant.</p>
+          <p>CosBioSys stays in kinship with EvoBioSys and other holons doing regenerative work elsewhere, so no place has to learn everything alone.</p>
+        </section>
+      </div>
+
+      <div class="hc-duo">
+        <div class="hc-panel">
+          <svg class="glyph glyph-local" viewBox="0 0 40 40" aria-hidden="true">
+            <circle class="ring" cx="20" cy="20" r="16" />
+            <circle cx="20" cy="20" r="6" />
+          </svg>
+          <h4>Rooted locally</h4>
+          <p>Practices grow from real soil, real neighbors, one place at a time.</p>
+        </div>
+        <div class="hc-panel">
+          <svg class="glyph glyph-global" viewBox="0 0 40 40" aria-hidden="true">
+            <line class="link" x1="20" y1="20" x2="6" y2="10" />
+            <line class="link" x1="20" y1="20" x2="34" y2="8" />
+            <line class="link" x1="20" y1="20" x2="30" y2="32" />
+            <circle class="n" cx="20" cy="20" r="4" />
+            <circle class="n" cx="6" cy="10" r="3" />
+            <circle class="n" cx="34" cy="8" r="3" />
+            <circle class="n" cx="30" cy="32" r="3" />
+          </svg>
+          <h4>Connected globally</h4>
+          <p>What one place learns travels the network, and returns changed.</p>
+        </div>
+      </div>
+
+      <p class="hc-closing">Local roots, global reach: one living guild.</p>
+    </section>
+
+  </div>
+
+  <p class="hc-note">Preview only, not wired into index.html. Sources: COS-A, COS-B, COS-C drafts (2026-08-02).</p>
+
+</main>
+
+</body>
+</html>
