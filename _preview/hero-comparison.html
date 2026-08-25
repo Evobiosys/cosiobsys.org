@@ -201,15 +201,10 @@
   .hc-v2 .node { fill: var(--node-fill); stroke: #f4ecd8; stroke-width: 1; }
   .hc-v2 .node.core { fill: #e8c98a; }
 
-  @media (prefers-reduced-motion: no-preference) {
-    .hc-v2 .node { animation: hc-breathe 5.5s ease-in-out infinite; }
-    .hc-v2 .node:nth-of-type(2n) { animation-delay: -1.3s; }
-    .hc-v2 .node:nth-of-type(3n) { animation-delay: -2.6s; }
-  }
-  @keyframes hc-breathe {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.18); }
-  }
+  /* Version 2 is a fully static frozen visual: no slider, no JS, and
+     (per the plan's global constraint) no animation of any kind on the
+     stage, including COS-C's own CSS-only "breathe" pulse on the node
+     circles — removed deliberately, not an oversight. */
 
   .hc-v2 .labels { position: absolute; inset: 0; pointer-events: none; }
   .hc-v2 .label {
@@ -312,8 +307,7 @@
   @media (prefers-reduced-motion: reduce) {
     .hc-v1 .leaf-l, .hc-v1 .leaf-r, .hc-v1 .leaf-top,
     .hc-v1 .thread, .hc-v1 .node, .hc-v1 .seed,
-    .glyph-local .ring, .glyph-global .n,
-    .hc-v2 .node {
+    .glyph-local .ring, .glyph-global .n {
       animation: none !important;
     }
   }
