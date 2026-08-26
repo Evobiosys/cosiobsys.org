@@ -104,7 +104,10 @@
   /* ---------- Version 1 visual: COS-A animated sprout/roots ---------- */
   .hc-v1 .soil-line { stroke: var(--cb-border, #e2d8c8); stroke-width: 1.5; }
 
-  .hc-v1 .stem { stroke: var(--hc-root); stroke-width: 4; fill: none; stroke-linecap: round; }
+  /* Stroke widths bumped from COS-A's originals (4/2.5/1.4) so the sprout
+     doesn't thin to sub-pixel weight at this column's render width, next
+     to Version 2's filled stage panel — flagged by final review. */
+  .hc-v1 .stem { stroke: var(--hc-root); stroke-width: 6; fill: none; stroke-linecap: round; }
 
   .hc-v1 .leaf { fill: var(--hc-glow); opacity: 0.9; transform-box: fill-box; }
   .hc-v1 .leaf-l { transform-origin: 100% 100%; animation: hc-sway-l 6s ease-in-out infinite; }
@@ -122,7 +125,7 @@
 
   .hc-v1 .root {
     stroke: var(--hc-root);
-    stroke-width: 2.5;
+    stroke-width: 4;
     fill: none;
     stroke-linecap: round;
     opacity: 0.85;
@@ -131,7 +134,7 @@
   .hc-v1 .thread {
     stroke: var(--hc-cosmic);
     fill: none;
-    stroke-width: 1.4;
+    stroke-width: 2.2;
     stroke-linecap: round;
     opacity: 0.55;
     animation: hc-pulse-thread 5s ease-in-out infinite;
@@ -169,8 +172,15 @@
     --grain-op: 0.275;
     --star-op: 0.5;
     --glow-op: 0.425;
-    --local-op: 0.15;
-    --cosmic-op: 0.15;
+    /* COS-C's own label-opacity formula (max(0,1-1.7t) / max(0,1.7t-0.7))
+       bottoms out for BOTH labels at exactly t = 0.5 — the freeze point
+       this version uses — so both sets would render at 0.15, effectively
+       unreadable (flagged by final review). Since this is a hand-baked
+       static state rather than a live slider read-out, the two label
+       opacities are set directly for legibility instead of derived
+       strictly from t: still "partial," not full-strength either side. */
+    --local-op: 0.42;
+    --cosmic-op: 0.42;
 
     width: 100%;
     aspect-ratio: 1 / 1;
