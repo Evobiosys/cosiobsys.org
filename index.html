@@ -9,70 +9,82 @@ description: >-
 <!-- ==================== HERO ==================== -->
 <section class="cb-hero">
   <div class="cb-hero-bg">
-    <svg class="cb-globe" viewBox="0 0 400 400" aria-hidden="true">
-      <defs>
-        <radialGradient id="cbSphere" cx="38%" cy="32%" r="75%">
-          <stop offset="0%"   stop-color="#7dd6cf"/>
-          <stop offset="55%"  stop-color="#2b8c8f"/>
-          <stop offset="100%" stop-color="#0e3e42"/>
-        </radialGradient>
-        <radialGradient id="cbAtmos" cx="50%" cy="50%" r="50%">
-          <stop offset="70%"  stop-color="rgba(125,214,207,0)"/>
-          <stop offset="92%"  stop-color="rgba(125,214,207,0.35)"/>
-          <stop offset="100%" stop-color="rgba(125,214,207,0)"/>
-        </radialGradient>
-      </defs>
+    <!-- Frozen COS-C stage: branching pattern blending root-system and
+         starfield, baked at t = 0.5 (no slider, no JS — static visual). -->
+    <div class="cb-hero-stage">
+      <svg viewBox="0 0 400 400" aria-hidden="true">
+        <defs>
+          <radialGradient id="cbStageGlow" cx="50%" cy="50%" r="60%">
+            <stop offset="0%" stop-color="#9fb2ff" stop-opacity="0.55"/>
+            <stop offset="100%" stop-color="#9fb2ff" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
 
-      <!-- Atmosphere halo -->
-      <circle cx="200" cy="200" r="185" fill="url(#cbAtmos)"/>
+        <circle class="cb-stage-glow" cx="200" cy="200" r="170" fill="url(#cbStageGlow)"/>
 
-      <!-- Sphere body -->
-      <circle cx="200" cy="200" r="160" fill="url(#cbSphere)"/>
-
-      <!-- Rotating meridians + nodes -->
-      <g class="cb-globe-spin">
-        <!-- Meridians (vertical) -->
-        <ellipse cx="200" cy="200" rx="30"  ry="160" fill="none" stroke="#b5ede8" stroke-width="0.8" opacity="0.35"/>
-        <ellipse cx="200" cy="200" rx="70"  ry="160" fill="none" stroke="#b5ede8" stroke-width="0.8" opacity="0.3"/>
-        <ellipse cx="200" cy="200" rx="110" ry="160" fill="none" stroke="#b5ede8" stroke-width="0.8" opacity="0.25"/>
-        <ellipse cx="200" cy="200" rx="150" ry="160" fill="none" stroke="#b5ede8" stroke-width="0.8" opacity="0.2"/>
-
-        <!-- Latitudes (static horizontal) -->
-        <ellipse cx="200" cy="200" rx="160" ry="30"  fill="none" stroke="#b5ede8" stroke-width="0.8" opacity="0.3"/>
-        <ellipse cx="200" cy="200" rx="160" ry="70"  fill="none" stroke="#b5ede8" stroke-width="0.8" opacity="0.28"/>
-        <ellipse cx="200" cy="200" rx="160" ry="110" fill="none" stroke="#b5ede8" stroke-width="0.8" opacity="0.26"/>
-        <ellipse cx="200" cy="200" rx="160" ry="150" fill="none" stroke="#b5ede8" stroke-width="0.8" opacity="0.2"/>
-
-        <!-- Network nodes scattered across the sphere -->
-        <g class="cb-nodes">
-          <circle cx="120" cy="90"  r="3" class="cb-node"/>
-          <circle cx="240" cy="110" r="3" class="cb-node"/>
-          <circle cx="310" cy="180" r="3" class="cb-node"/>
-          <circle cx="280" cy="260" r="3" class="cb-node"/>
-          <circle cx="190" cy="295" r="3" class="cb-node"/>
-          <circle cx="105" cy="245" r="3" class="cb-node"/>
-          <circle cx="80"  cy="175" r="3" class="cb-node"/>
-          <circle cx="170" cy="170" r="3.5" class="cb-node cb-node-home"/>
-          <circle cx="235" cy="205" r="3" class="cb-node"/>
-
-          <!-- Connecting threads -->
-          <path class="cb-thread" d="M120 90 L170 170 L240 110 M170 170 L310 180 M170 170 L280 260 M170 170 L190 295 M170 170 L105 245 M170 170 L80 175 M170 170 L235 205"
-                stroke="#fff2c0" stroke-width="0.6" fill="none" opacity="0.55"/>
+        <g class="cb-stage-stars">
+          <circle cx="34" cy="52" r="1.1"/><circle cx="61" cy="120" r="0.8"/>
+          <circle cx="22" cy="210" r="1.3"/><circle cx="48" cy="300" r="0.9"/>
+          <circle cx="80" cy="360" r="1"/><circle cx="130" cy="30" r="0.8"/>
+          <circle cx="330" cy="45" r="1.2"/><circle cx="365" cy="110" r="0.9"/>
+          <circle cx="372" cy="220" r="1.1"/><circle cx="350" cy="310" r="0.8"/>
+          <circle cx="300" cy="365" r="1"/><circle cx="250" cy="18" r="0.9"/>
+          <circle cx="150" cy="375" r="1.1"/><circle cx="12" cy="150" r="0.7"/>
+          <circle cx="388" cy="270" r="1"/><circle cx="200" cy="10" r="0.8"/>
+          <circle cx="200" cy="392" r="0.9"/><circle cx="95" cy="80" r="0.7"/>
+          <circle cx="310" cy="150" r="0.9"/><circle cx="270" cy="330" r="0.8"/>
         </g>
-      </g>
 
-      <!-- Sphere edge highlight -->
-      <circle cx="200" cy="200" r="160" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
-    </svg>
+        <!-- same branching pattern, root system at one scale, star lanes at the other -->
+        <g>
+          <path class="cb-stage-branch" d="M200,200 C185,150 170,110 150,60"/>
+          <path class="cb-stage-twig"   d="M170,110 C155,100 140,96 128,84"/>
+          <path class="cb-stage-branch" d="M200,200 C230,160 255,120 260,65"/>
+          <path class="cb-stage-twig"   d="M245,135 C260,122 272,116 288,106"/>
+          <path class="cb-stage-branch" d="M200,200 C250,190 300,180 350,165"/>
+          <path class="cb-stage-twig"   d="M290,183 C300,170 308,160 320,148"/>
+          <path class="cb-stage-branch" d="M200,200 C245,225 290,255 335,290"/>
+          <path class="cb-stage-twig"   d="M280,255 C292,264 302,270 315,282"/>
+          <path class="cb-stage-branch" d="M200,200 C210,250 222,300 235,350"/>
+          <path class="cb-stage-twig"   d="M220,290 C232,296 242,302 253,314"/>
+          <path class="cb-stage-branch" d="M200,200 C175,245 148,285 118,325"/>
+          <path class="cb-stage-twig"   d="M155,275 C142,282 132,288 118,298"/>
+          <path class="cb-stage-branch" d="M200,200 C160,205 108,215 60,225"/>
+          <path class="cb-stage-twig"   d="M115,213 C102,222 92,228 78,238"/>
+          <path class="cb-stage-branch" d="M200,200 C160,175 120,148 78,112"/>
+          <path class="cb-stage-twig"   d="M130,155 C118,146 108,140 94,130"/>
+
+          <circle class="cb-stage-node cb-stage-node-core" cx="200" cy="200" r="9"/>
+          <circle class="cb-stage-node" cx="150" cy="60" r="5"/>
+          <circle class="cb-stage-node" cx="128" cy="84" r="3"/>
+          <circle class="cb-stage-node" cx="260" cy="65" r="5"/>
+          <circle class="cb-stage-node" cx="288" cy="106" r="3"/>
+          <circle class="cb-stage-node" cx="350" cy="165" r="5"/>
+          <circle class="cb-stage-node" cx="320" cy="148" r="3"/>
+          <circle class="cb-stage-node" cx="335" cy="290" r="5"/>
+          <circle class="cb-stage-node" cx="315" cy="282" r="3"/>
+          <circle class="cb-stage-node" cx="235" cy="350" r="5"/>
+          <circle class="cb-stage-node" cx="253" cy="314" r="3"/>
+          <circle class="cb-stage-node" cx="118" cy="325" r="5"/>
+          <circle class="cb-stage-node" cx="118" cy="298" r="3"/>
+          <circle class="cb-stage-node" cx="60" cy="225" r="5"/>
+          <circle class="cb-stage-node" cx="78" cy="238" r="3"/>
+          <circle class="cb-stage-node" cx="78" cy="112" r="5"/>
+          <circle class="cb-stage-node" cx="94" cy="130" r="3"/>
+        </g>
+      </svg>
+
+      <div class="cb-stage-grain"></div>
+    </div>
   </div>
 
   <div class="cb-hero-content">
     <span class="cb-eyebrow">CosBioSys</span>
-    <h1>A network of <span class="cb-accent">places</span> where trust is dense enough to belong</h1>
+    <h1>Rooted here.<br>Reaching <span class="cb-accent">everywhere</span>.</h1>
     <p class="cb-lead">
-      Not places owned. Places where the social fabric is thick enough that
-      belonging precedes arrival. A personal mesh of homes, hubs, and
-      retreats &mdash; each held at the pace of love and trust.
+      <strong>CosBioSys</strong> is a guild cultivating regenerative ways of
+      living: cosmo-local in practice, grounded in one place, in kinship
+      with many.
     </p>
     <div class="cb-hero-cta">
       <a href="#criteria" class="cb-btn cb-btn-primary">What makes a place yours</a>

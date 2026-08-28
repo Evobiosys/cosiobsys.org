@@ -215,40 +215,42 @@ em { color: var(--cb-turquoise); font-style: italic; }
   pointer-events: none;
   z-index: 0;
 }
-.cb-globe {
-  width: 100%;
-  height: 100%;
-  filter: drop-shadow(0 20px 60px rgba(14, 62, 66, 0.25));
-}
-.cb-globe-spin {
-  transform-origin: 200px 200px;
-  animation: cb-globe-rotate 60s linear infinite;
-}
-@keyframes cb-globe-rotate {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-.cb-node {
-  fill: var(--cb-gold-glow);
-  filter: drop-shadow(0 0 6px rgba(245, 216, 138, 0.9));
-  animation: cb-node-pulse 4s ease-in-out infinite;
-}
-.cb-node-home {
-  fill: #ffffff;
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.95));
-  animation: cb-node-pulse 3s ease-in-out infinite;
-}
-.cb-node:nth-child(2) { animation-delay: 0.4s; }
-.cb-node:nth-child(3) { animation-delay: 0.8s; }
-.cb-node:nth-child(4) { animation-delay: 1.2s; }
-.cb-node:nth-child(5) { animation-delay: 1.6s; }
-.cb-node:nth-child(6) { animation-delay: 2.0s; }
-.cb-node:nth-child(7) { animation-delay: 2.4s; }
-.cb-node:nth-child(8) { animation-delay: 2.8s; }
 @keyframes cb-node-pulse {
   0%, 100% { opacity: 0.65; transform: scale(1);   }
   50%      { opacity: 1;    transform: scale(1.2); }
 }
+
+/* Frozen COS-C stage — baked from its render(t) at slider value 50
+   (t = 0.5): a fully static visual, no slider, no JS, no animation. */
+.cb-hero-stage {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 60px rgba(14, 62, 66, 0.25);
+  background: radial-gradient(circle at 50% 45%, rgb(65, 47, 50), rgb(36, 27, 31) 78%);
+}
+.cb-hero-stage svg { width: 100%; height: 100%; display: block; }
+
+.cb-stage-grain {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 226, 170, 0.35) 1px, transparent 1.4px);
+  background-size: 14px 14px;
+  opacity: 0.275;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.cb-stage-stars circle { fill: #f4ecd8; opacity: 0.5; }
+.cb-stage-glow { opacity: 0.425; }
+
+.cb-stage-branch { fill: none; stroke: #c99a4a; stroke-width: 1.6; stroke-linecap: round; opacity: 0.9; }
+.cb-stage-twig { fill: none; stroke: #c99a4a; stroke-width: 1; opacity: 0.6; }
+.cb-stage-node { fill: rgb(146, 125, 153); stroke: #f4ecd8; stroke-width: 1; }
+.cb-stage-node-core { fill: #e8c98a; }
 
 .cb-hero-content {
   position: relative;
