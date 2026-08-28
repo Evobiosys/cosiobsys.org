@@ -24,3 +24,8 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - vendor/
+  - DEVLOG/
+  - DEVLOG-cosbiosys-hero-plan.md
+  - docs/
+  - EVOBIOSYS-LICENSE.txt
+  - "*.bak.*"
